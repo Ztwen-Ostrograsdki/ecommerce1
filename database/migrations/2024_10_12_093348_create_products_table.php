@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->json('images');
             $table->longText('description')->nullable()->default(null);
-            $table->decimal('price', 10, 2);
+            $table->decimal('price', 15, 2);
             $table->boolean('is_active')->default(1);
             $table->boolean('is_featured')->default(0);
             $table->boolean('in_stock')->default(1);

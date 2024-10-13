@@ -25,6 +25,10 @@ class UserResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-user-group';
 
+    protected static ?string $navigationLabel = 'Les Utilisateurs';
+
+    public static ?string $label = "Les Utilisateurs";
+
     public static function form(Form $form): Form
     {
         return $form
@@ -86,6 +90,11 @@ class UserResource extends Resource
         return [
             //
         ];
+    }
+
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count() >= 10 ? static::getModel()::count() : '0' . static::getModel()::count();
     }
 
     public static function getPages(): array
