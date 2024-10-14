@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('orders', function (Blueprint $table) {
-            $table->renameColumn('shippig_method', 'shipping_method');
+        Schema::table('addresses', function (Blueprint $table) {
+            $table->string('image')->nullable();
         });
     }
 
@@ -21,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('orders', function (Blueprint $table) {
-           
+        Schema::table('addresses', function (Blueprint $table) {
+            //
         });
     }
 };

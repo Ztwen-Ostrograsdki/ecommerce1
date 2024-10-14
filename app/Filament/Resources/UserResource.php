@@ -9,15 +9,20 @@ use Filament\Forms\Form;
 use Filament\Pages\Page;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
+use Filament\Forms\Components\Group;
+use Filament\Forms\Components\Section;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
+use Filament\Tables\Actions\ActionGroup;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Forms\Components\FileUpload;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Resources\Pages\CreateRecord;
 use Filament\Forms\Components\DateTimePicker;
 use App\Filament\Resources\UserResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\UserResource\RelationManagers;
-use Filament\Tables\Actions\ActionGroup;
-use Filament\Tables\Columns\TextColumn;
+use App\Filament\Resources\UserResource\RelationManagers\OrdersRelationManager;
 
 class UserResource extends Resource
 {
@@ -33,26 +38,37 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('name')
+                Group::make()->schema([
+                    Section::make('Info Personnelles')->schema([
+                        TextInput::make('name')
                         ->label('Nom utilisateur ou pseudo')
                         ->required(),
 
-                TextInput::make('email')
-                        ->label('Adress mail')
-                        ->email()
-                        ->maxlength('255')
-                        ->unique(ignoreRecord: true)
-                        ->required(),
-                
-                DateTimePicker::make('email_verified_at')
-                        ->label('Email vérifié le ')
-                        ->default(now()),
+                    TextInput::make('email')
+                            ->label('Adress mail')
+                            ->email()
+                            ->maxlength('255')
+                            ->unique(ignoreRecord: true)
+                            ->required(),
+                    
+                    DateTimePicker::make('email_verified_at')
+                            ->label('Email vérifié le ')
+                            ->default(now()),
 
-                TextInput::make('password')
-                        ->label('mot de passe')
-                        ->password()
-                        ->dehydrated(fn($state) => filled($state))
-                        ->required(fn(Page $livewire) : bool => $livewire instanceof CreateRecord)
+                    TextInput::make('password')
+                            ->label('mot de passe')
+                            ->password()
+                            ->dehydrated(fn($state) => filled($state))
+                            ->required(fn(Page $livewire) : bool => $livewire instanceof CreateRecord)
+                    ])->columns(2),
+
+                    Section::make('Photo de Profil')->schema([
+                        FileUpload::make('profil_photo')
+                        ->image()
+                        ->directory('users'),
+                    ]),
+
+                ])->columnSpanFull()
                 
             ]);
     }
@@ -62,6 +78,7 @@ class UserResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name')->searchable(),
+                ImageColumn::make('profil_photo')->circular(true),
                 TextColumn::make('email')->searchable(),
                 TextColumn::make('email_verified_at')->dateTime()->sortable(),
                 TextColumn::make('created_at')->dateTime()->sortable(),
@@ -88,7 +105,7 @@ class UserResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            OrdersRelationManager::class,
         ];
     }
 

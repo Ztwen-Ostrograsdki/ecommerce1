@@ -41,7 +41,7 @@ class ProductResource extends Resource
         return $form
             ->schema([
                 Group::make()->schema([
-                    Section::make('Details artices')->schema([
+                    Section::make('Details articles')->schema([
                         TextInput::make('name')
                                 ->label('Nom')
                                 ->required()

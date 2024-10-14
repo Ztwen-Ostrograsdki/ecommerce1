@@ -20,6 +20,8 @@ return new class extends Migration
             $table->text('street_address')->nullable();
             $table->string('city')->nullable();
             $table->string('state')->nullable();
+            $table->json('images')->nullable()->default(null);
+            $table->string('image')->nullable();
             $table->string('zip_code')->nullable();
             $table->timestamps();
         });

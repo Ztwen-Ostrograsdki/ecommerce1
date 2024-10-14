@@ -26,6 +26,7 @@ use Filament\Forms\Components\ToggleButtons;
 use App\Filament\Resources\OrderResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\OrderResource\RelationManagers;
+use App\Filament\Resources\OrderResource\RelationManagers\AddressRelationManager;
 use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Columns\TextColumn;
 
@@ -37,6 +38,8 @@ class OrderResource extends Resource
 
     protected static ?string $navigationLabel = "Les demandes d'achats";
 
+    
+
     public static ?string $label = "Demandes d'achats";
 
     public static function form(Form $form): Form
@@ -44,7 +47,7 @@ class OrderResource extends Resource
         return $form
             ->schema([
                 Group::make()->schema([
-                    Section::make("Details de l'achat")->schema([
+                    Section::make("Details de l'achat ou de la commande")->schema([
                         Select::make("user_id")
                               ->label('Client')
                               ->relationship('user', 'name')
@@ -128,7 +131,7 @@ class OrderResource extends Resource
                                 ->placeholder("Des details complémentaires sur la demande...")
                     ])->columns(2),
 
-                    Section::make('Listes des demandes')->schema([
+                    Section::make('Listes des commandes')->schema([
                         Repeater::make('items')
                         ->label('Listes des articles')
                         ->relationship()
@@ -177,7 +180,7 @@ class OrderResource extends Resource
                         ])->columns(12),
 
                         Placeholder::make('grand_total_placeholder')
-                                    ->label('Facturatoin totale')
+                                    ->label('Facturation totale')
                                     ->content(function(Get $get, Set $set){
                                         $total = 0;
 
@@ -219,7 +222,6 @@ class OrderResource extends Resource
 
                 SelectColumn::make('payment_method')
                            ->searchable()
-                           ->disabled()
                            ->options([
                             'stripe' => "Stripe",
                             'cod' => "Payement en liquide",
@@ -234,7 +236,6 @@ class OrderResource extends Resource
                            ->searchable()
                            ->label('Statut du payement')
                            ->sortable()
-                           ->disabled()
                            ->options([
                             'pending' => "En cours...",
                             'paid' => "Payé",
@@ -243,7 +244,6 @@ class OrderResource extends Resource
 
                 SelectColumn::make('status')
                            ->label('Statut de la demande')
-                           ->disabled()
                            ->options([
                             'new' => "Nouvelle demande",
                             'processing' => "En cours de traitement",
@@ -254,7 +254,6 @@ class OrderResource extends Resource
 
                 SelectColumn::make('currency')
                            ->label('Devise')
-                           ->disabled()
                            ->options([
                             'inr' => "INR",
                             'usd' => "USD",
@@ -308,7 +307,7 @@ class OrderResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            AddressRelationManager::class,
         ];
     }
 

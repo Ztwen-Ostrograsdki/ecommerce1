@@ -119,6 +119,11 @@ class CategoryResource extends Resource
         ];
     }
 
+    public static function getNavigationBadge(): ?string
+    {
+        return static::getModel()::count() >= 10 ? static::getModel()::count() : '0' . static::getModel()::count();
+    }
+
     public static function getPages(): array
     {
         return [
