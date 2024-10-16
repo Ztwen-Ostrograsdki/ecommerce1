@@ -1,66 +1,95 @@
 <div class="w-full max-w-[85rem] py-10 px-4 sm:px-6 lg:px-8 mx-auto">
     <div class="container mx-auto px-4">
-      <h1 class="text-2xl font-semibold mb-4">Shopping Cart</h1>
+      <h1 class="text-2xl font-semibold text-gray-400 mb-4">Panier d'achat</h1>
       <div class="flex flex-col md:flex-row gap-4">
         <div class="md:w-3/4">
-          <div class="bg-white overflow-x-auto rounded-lg shadow-md p-6 mb-4">
+          <div class="bg-gray-600 overflow-x-auto rounded-lg border shadow-md p-6 mb-4">
+            @if (count($carts_items))
             <table class="w-full">
               <thead>
-                <tr>
-                  <th class="text-left font-semibold">Product</th>
-                  <th class="text-left font-semibold">Price</th>
-                  <th class="text-left font-semibold">Quantity</th>
+                <tr class="bg-slate-700 border rounded">
+                  <th class="text-left font-semibold p-2">Article</th>
+                  <th class="text-left font-semibold">Prix</th>
+                  <th class="text-left font-semibold">Quantité</th>
                   <th class="text-left font-semibold">Total</th>
-                  <th class="text-left font-semibold">Remove</th>
+                  <th class="text-left font-semibold">Action</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
+                @forelse ($carts_items as $item)
+                <tr wire:key='{{ $item['product_id'] }}'>
                   <td class="py-4">
                     <div class="flex items-center">
-                      <img class="h-16 w-16 mr-4" src="https://via.placeholder.com/150" alt="Product image">
-                      <span class="font-semibold">Product name</span>
+                      <a href="{{route('product', ['slug' => $item['slug']])}}">
+                        <img class="h-16 w-16 mr-4 border" src="{{url('storage', $item['image'])}}" alt="{{ $item['name'] }}">
+                      </a>
+                      <span class="font-semibold">{{ $item['name'] }}</span>
                     </div>
                   </td>
-                  <td class="py-4">$19.99</td>
+                  <td class="py-4"><b>{{ Number::currency($item['unit_amount'], 'CFA') }}</b></td>
                   <td class="py-4">
                     <div class="flex items-center">
-                      <button class="border rounded-md py-2 px-4 mr-2">-</button>
-                      <span class="text-center w-8">1</span>
-                      <button class="border rounded-md py-2 px-4 ml-2">+</button>
+                      <button class="border rounded-md hover:bg-orange-500 py-2 px-4 mr-2">-</button>
+                      <span class="text-center w-8"> {{ $item['quantity'] >= 10 ? $item['quantity'] : '0' . $item['quantity']  }} </span>
+                      <button wire:click='incrementQuantity({{$item['product_id']}})' class="border rounded-md hover:bg-green-600 py-2 px-4 ml-2">+</button>
                     </div>
                   </td>
-                  <td class="py-4">$19.99</td>
-                  <td><button class="bg-slate-300 border-2 border-slate-400 rounded-lg px-3 py-1 hover:bg-red-500 hover:text-white hover:border-red-700">Remove</button></td>
+                  <td class="py-4 "> <b>{{ Number::currency($item['total_amount'], 'CFA') }}</b></td>
+                  <td><button class="bg-slate-300 border-2 rounded-lg px-3 py-1 border-dark hover:bg-red-500 hover:text-white hover:border-red-700">Retirer</button></td>
                 </tr>
+                @empty
+                  
+                @endforelse
+                
                 <!-- More product rows -->
               </tbody>
             </table>
+            @else
+            <div class="w-full my-8 bg-slate-800 rounded-3xl py-9 border flex justify-center">
+              <b class="text-orange-300 text-2xl text-center">Oupps, Le panier est vide!!!</b>
+            </div>
+            <div class="md">
+              <a class=" w-full mt-10" href="{{route('products.home')}}">
+                <h3 class="bg-blue-500 hover:bg-green-600 text-white text-2xl rounded-lg text-center py-4 mt-4 w-full">
+                  <b>Faire du shopping</b>
+                </h3>
+              </a>
+            </div>
+            @endif
           </div>
         </div>
+        @if (count($carts_items))
         <div class="md:w-1/4">
-          <div class="bg-white rounded-lg shadow-md p-6">
-            <h2 class="text-lg font-semibold mb-4">Summary</h2>
+          <div class="bg-gray-600 border rounded-3xl shadow-md p-6">
+            <h2 class="text-lg font-semibold mb-4">Facture</h2>
+            <hr class="my-2 text-slate-800 bg-slate-500">
             <div class="flex justify-between mb-2">
-              <span>Subtotal</span>
-              <span>$19.99</span>
+              <span>Sous total</span>
+              <span>
+                <b>{{ Number::currency($grand_total, 'CFA') }}</b>
+              </span>
             </div>
             <div class="flex justify-between mb-2">
               <span>Taxes</span>
-              <span>$1.99</span>
+              <span>{{ $taxe }}</span>
             </div>
             <div class="flex justify-between mb-2">
-              <span>Shipping</span>
-              <span>$0.00</span>
+              <span>Prix de livraison</span>
+              <span>{{ $shipping_price }}</span>
             </div>
             <hr class="my-2">
             <div class="flex justify-between mb-2">
               <span class="font-semibold">Total</span>
-              <span class="font-semibold">$21.98</span>
+              <span class="font-semibold">
+                <b>{{ Number::currency(($grand_total + $taxe + $shipping_price), 'CFA') }}</b>
+              </span>
             </div>
-            <button class="bg-blue-500 text-white py-2 px-4 rounded-lg mt-4 w-full">Checkout</button>
+            <button class="bg-blue-500 text-white py-2 px-4 hover:bg-green-700 hover:border rounded-lg mt-4 w-full">Payer</button>
+
+            <button wire:click='clearCart' class="bg-red-600 text-white py-2 px-4 hover:bg-red-700 hover:border rounded-lg mt-4 w-full">Vider le panier</button>
           </div>
         </div>
+        @endif
       </div>
     </div>
   </div>

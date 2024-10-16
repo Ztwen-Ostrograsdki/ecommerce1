@@ -68,6 +68,7 @@ class ProductResource extends Resource
                         FileUpload::make('images')
                                    ->label('Les images associées')
                                    ->multiple()
+                                   ->required()
                                    ->directory('products')
                                    ->reorderable()
                                    ->maxFiles(5)

@@ -10,4 +10,5 @@ class HomePage extends Component
     {
         return view('livewire.home-page');
     }
+
 }

@@ -66,6 +66,7 @@ class CategoryResource extends Resource
                         ]),
                     
                     FileUpload::make('image')
+                        ->required()
                         ->image()
                         ->directory('categories'),
                 ]),

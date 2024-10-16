@@ -4,6 +4,13 @@ use Illuminate\Support\Facades\Facade;
 
 return [
 
+    'products_status' => [
+        'in_stock' => 'Disponible',
+        'is_active' => 'Actif',
+        'is_featured' => 'Article spécial',
+        'on_sale' => 'En vente',
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Application Name
@@ -15,7 +22,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'ZtweN eCOMMERCE'),
 
     /*
     |--------------------------------------------------------------------------

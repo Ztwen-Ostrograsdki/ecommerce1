@@ -75,6 +75,7 @@ class BrandResource extends Resource
                         ]),
                     
                     FileUpload::make('image')
+                        ->required()
                         ->image()
                         ->directory('brands'),
                 ]),

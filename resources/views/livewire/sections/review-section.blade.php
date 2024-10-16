@@ -3,7 +3,7 @@
       <div class="max-w-xl mx-auto">
         <div class="text-center ">
           <div class="relative flex flex-col items-center">
-            <h1 class="text-5xl font-bold dark:text-gray-200"> Customer <span class="text-blue-500"> Reviews
+            <h1 class="text-3xl font-bold dark:text-gray-200"> Nos services <span class="text-blue-500"> reconnus
               </span> </h1>
             <div class="flex w-40 mt-2 mb-6 overflow-hidden rounded">
               <div class="flex-1 h-2 bg-blue-200">
