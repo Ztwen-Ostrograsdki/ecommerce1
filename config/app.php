@@ -11,6 +11,13 @@ return [
         'on_sale' => 'En vente',
     ],
 
+    'payments_methods' => [
+        'stripe' => 'Stripe',
+        'momo_mtn' => 'MTN MOMO',
+        'moov_money' => 'MOOV MONEY',
+        'celtiis_cash' => 'Celtiis Cash',
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Application Name

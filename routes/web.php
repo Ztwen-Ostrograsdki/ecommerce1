@@ -33,9 +33,9 @@ Route::get('/articles/categorie={c?}', ProductsPage::class)->name('products.home
 Route::get('/articles/marque.game={b?}', ProductsPage::class)->name('products.home.onbrandselected');
 
 Route::get('/articles/article={slug}', ProductsDetailsPage::class)->name('product');
-Route::get('/cart', CartsPage::class)->name('carts.home');
+Route::get('/mon-panier', CartsPage::class)->name('my_cart');
 Route::get('/articles/article={product}', CartsPage::class)->name('cart');
-Route::get('/checkout', CheckoutPage::class)->name('checkout');
+Route::get('/validation-de-mon-panier', CheckoutPage::class)->name('checkout');
 Route::get('/mes-commandes', MyOrdersPage::class)->name('my_orders');
 Route::get('/mes-commandes/{order}', MyOrderDetailPage::class)->name('my_order');
 

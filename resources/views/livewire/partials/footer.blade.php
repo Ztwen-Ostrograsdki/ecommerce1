@@ -11,9 +11,9 @@
           <h4 class="font-semibold text-gray-100">Menu</h4>
   
           <div class="mt-3 grid space-y-3">
-            <p><a class="inline-flex gap-x-2 text-gray-400 hover:text-gray-200 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="{{route('categories.home')}}">Categories</a></p>
-            <p><a class="inline-flex gap-x-2 text-gray-400 hover:text-gray-200 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="{{route('products.home')}}">Tous les articles</a></p>
-            <p><a class="inline-flex gap-x-2 text-gray-400 hover:text-gray-200 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="{{route('products.home')}}">Les articles les plus vus</a></p>
+            <p><a class="inline-flex gap-x-2  {{request()->is('categories') ? 'text-blue-600' : 'text-gray-500' }} hover:text-gray-200 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="{{route('categories.home')}}">Categories</a></p>
+            <p><a class="inline-flex gap-x-2  {{request()->is('articles') ? 'text-blue-600' : 'text-gray-500' }} hover:text-gray-200 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="{{route('products.home')}}">Tous les articles</a></p>
+            <p><a class="inline-flex gap-x-2  {{request()->is('articles-les-plus-vus') ? 'text-blue-600' : 'text-gray-500' }} hover:text-gray-200 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="{{route('products.home')}}">Les articles les plus vus</a></p>
           </div>
         </div>
         <!-- End Col -->

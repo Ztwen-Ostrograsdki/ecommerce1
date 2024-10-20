@@ -42,7 +42,26 @@ class ProductsPage extends Component
 
     public $min_price = 0;
 
+    public $image_indexes = [];
+
+    public $current_index = 0;
+
     public $max_price = 90000000;
+
+    public $sections = [
+        'by_created_at' => 'Les plus récents',
+        'by_price_up' => 'Prix croissants',
+        'by_price_down' => 'Prix décroissants',
+        'by_more_bought' => 'Plus achétés',
+        'by_name_up' => 'Noms croissants',
+        'by_name_down' => 'Noms décroissants',
+        'on_sale' => 'En vente',
+        'on_news' => 'Nouveauté',
+        null => 'Tout',
+
+    ];
+
+    public $selected_section = null;
 
     public function reloadBrandSelected($brand_id)
     {
@@ -83,7 +102,9 @@ class ProductsPage extends Component
 
     public function render()
     {
-        $query = Product::query()->orderBy('name', 'asc')->where('is_active', 1);
+        $images_indexes = [];
+
+        $query = Product::query()->where('is_active', 1);
 
         if($query){
 
@@ -124,12 +145,84 @@ class ProductsPage extends Component
         }
 
 
+        if($this->selected_section){
 
+            if($this->selected_section !== null){
+
+                $section = $this->selected_section;
+
+                if($section == 'by_name_up'){
+                    $query->orderBy('name', 'asc');
+                }
+
+                if($section == 'by_name_down'){
+                    $query->orderBy('name', 'desc');
+                }
+
+                if($section == 'by_created_at'){
+                    $query->orderBy('created_at', 'asc');
+                }
+
+                if($section == 'by_price_up'){
+                    $query->orderBy('price', 'asc');
+                }
+
+                if($section == 'by_price_down'){
+                    $query->orderBy('price', 'desc');
+                }
+
+                if($section == 'on_sale'){
+                    $query->where('on_sale', 1);
+                }
+            }
+        }
 
 
         $brands = Brand::orderBy('name', 'asc')->where('is_active', 1)->get(['id', 'name', 'slug']);
 
         $categories = Category::orderBy('name', 'asc')->where('is_active', 1)->get(['id', 'name', 'slug']);
+
+        foreach($query->get() as $p){
+
+            if($this->current_index == $p->id){
+
+                $images = $p->images;
+
+                $current = $this->image_indexes[$p->id]['current'];
+
+                if($current + 1 < count($images)){
+
+                    $index = $current + 1;
+                }
+                else{
+                    $index = 0;
+                }
+
+                $this->image_indexes[$p->id] = [
+                    'index' => $index, 
+                    'current' => $index
+                ];
+
+            }
+            else{
+                if(isset($this->image_indexes[$p->id]) && $this->image_indexes[$p->id]['index'] !== 0){
+                    $this->image_indexes[$p->id] = [
+                        'index' => $this->image_indexes[$p->id]['index'], 
+                        'current' => $this->image_indexes[$p->id]['index']
+                    ];
+                }
+                else{
+                    $this->image_indexes[$p->id] = [
+                        'index' => 0, 
+                        'current' => 0
+                    ];
+                }
+               
+            }
+           
+        }
+
+
 
         return view('livewire.products-page',
             [
@@ -139,5 +232,13 @@ class ProductsPage extends Component
                 'products_status' => $products_status,
             ]
         );
+    }
+
+    public function reloadImageIndex($product_id)
+    {
+        if($this->current_index !== $product_id){
+
+            $this->current_index = $product_id;
+        } 
     }
 }

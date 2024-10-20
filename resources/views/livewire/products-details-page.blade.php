@@ -26,12 +26,14 @@
                   </span>
                   <h2 class="text-lg font-bold text-gray-700 dark:text-gray-400">Livraison gratuite</h2>
                 </div>
+                
               </div>
             </div>
           </div>
           <div class="w-full px-4 md:w-1/2 ">
             <div class="lg:pl-20">
               <div class="mb-8 ">
+                
                 <h2 class="max-w-xl mb-6 text-2xl font-bold dark:text-gray-400 md:text-4xl">
                   {{$product->name}}
                 </h2>
@@ -67,6 +69,11 @@
             </div>
           </div>
         </div>
+        <span class="text-sm float-right block  text-green-600 mt-3">
+          <span>Publié le </span>
+          <span class="">{{ $product->__to(null, true) }}</span>
+          <hr>
+        </span>
       </div>
     </section>
   </div>

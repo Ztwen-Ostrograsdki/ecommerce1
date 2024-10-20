@@ -1,13 +1,13 @@
 <div class="w-full max-w-[85rem] py-10 px-4 sm:px-6 lg:px-8 mx-auto">
     <div class="container mx-auto px-4">
-      <h1 class="text-2xl font-semibold text-gray-400 mb-4">Panier d'achat</h1>
+      <h1 class="text-2xl font-semibold text-gray-400 mb-4 md:w-3/4">Panier d'achat <span class="float-right text-yellow-400">{{ count($carts_items) > 0 ? (count($carts_items) >= 10 ? count($carts_items) : '0' . count($carts_items)) . ' articles ' : ' Aucun article ' }} ajouté{{ count($carts_items) > 1 ? 's' : '' }}</span> </h1>
       <div class="flex flex-col md:flex-row gap-4">
         <div class="md:w-3/4">
           <div class="bg-gray-600 overflow-x-auto rounded-lg border shadow-md p-6 mb-4">
             @if (count($carts_items))
             <table class="w-full">
               <thead>
-                <tr class="bg-slate-700 border rounded">
+                <tr class="bg-slate-700 text-gray-300 border rounded">
                   <th class="text-left font-semibold p-2">Article</th>
                   <th class="text-left font-semibold">Prix</th>
                   <th class="text-left font-semibold">Quantité</th>
@@ -17,9 +17,9 @@
               </thead>
               <tbody>
                 @forelse ($carts_items as $item)
-                <tr wire:key='{{ $item['product_id'] }}'>
+                <tr class="shadow my-2" wire:key='{{ $item['product_id'] }}'>
                   <td class="py-4">
-                    <div class="flex items-center">
+                    <div class="flex items-center pl-3">
                       <a href="{{route('product', ['slug' => $item['slug']])}}">
                         <img class="h-16 w-16 mr-4 border" src="{{url('storage', $item['image'])}}" alt="{{ $item['name'] }}">
                       </a>
@@ -29,18 +29,17 @@
                   <td class="py-4"><b>{{ Number::currency($item['unit_amount'], 'CFA') }}</b></td>
                   <td class="py-4">
                     <div class="flex items-center">
-                      <button class="border rounded-md hover:bg-orange-500 py-2 px-4 mr-2">-</button>
+                      <button wire:click='decrementQuantity({{$item['product_id']}})' class="border rounded-md hover:bg-orange-500 py-2 px-4 mr-2">-</button>
                       <span class="text-center w-8"> {{ $item['quantity'] >= 10 ? $item['quantity'] : '0' . $item['quantity']  }} </span>
                       <button wire:click='incrementQuantity({{$item['product_id']}})' class="border rounded-md hover:bg-green-600 py-2 px-4 ml-2">+</button>
                     </div>
                   </td>
                   <td class="py-4 "> <b>{{ Number::currency($item['total_amount'], 'CFA') }}</b></td>
-                  <td><button class="bg-slate-300 border-2 rounded-lg px-3 py-1 border-dark hover:bg-red-500 hover:text-white hover:border-red-700">Retirer</button></td>
+                  <td><button wire:click='deleteItem ({{$item['product_id']}})' class="bg-slate-300 border-2 rounded-lg px-3 py-1 border-dark hover:bg-red-500 hover:text-white hover:border-red-700">Retirer</button></td>
                 </tr>
                 @empty
                   
                 @endforelse
-                
                 <!-- More product rows -->
               </tbody>
             </table>
@@ -50,7 +49,7 @@
             </div>
             <div class="md">
               <a class=" w-full mt-10" href="{{route('products.home')}}">
-                <h3 class="bg-blue-500 hover:bg-green-600 text-white text-2xl rounded-lg text-center py-4 mt-4 w-full">
+                <h3 class="bg-blue-500 hover:bg-green-600 text-white text-2xl rounded-3xl text-center py-4 mt-4 w-full">
                   <b>Faire du shopping</b>
                 </h3>
               </a>
@@ -84,7 +83,7 @@
                 <b>{{ Number::currency(($grand_total + $taxe + $shipping_price), 'CFA') }}</b>
               </span>
             </div>
-            <button class="bg-blue-500 text-white py-2 px-4 hover:bg-green-700 hover:border rounded-lg mt-4 w-full">Payer</button>
+            <a href="{{route('checkout')}}" class="bg-blue-500 block text-center text-white py-2 px-4 hover:bg-green-700 hover:border rounded-lg mt-4 w-full">Payer</a>
 
             <button wire:click='clearCart' class="bg-red-600 text-white py-2 px-4 hover:bg-red-700 hover:border rounded-lg mt-4 w-full">Vider le panier</button>
           </div>

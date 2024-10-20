@@ -64,6 +64,7 @@ class CartManager{
         if(count($carts_items)){
 
             foreach($carts_items as $key => $item){
+
                 if($item['product_id'] == $product_id){
 
                     //unset($carts_items[$product_id]);
@@ -141,7 +142,7 @@ class CartManager{
 
             if($item['product_id'] == $product_id){
 
-                if($item[$key]['quantity'] > 1){
+                if($carts_items[$key]['quantity'] > 1){
 
                     $carts_items[$key]['quantity']--;
 

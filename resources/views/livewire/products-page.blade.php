@@ -60,7 +60,7 @@
 
                 <li class="mb-4">
                   <label for="in_stock" class="flex items-center dark:text-gray-300">
-                    <input id="in_stock" type="checkbox" value="1" wire:model.live="in_stock" class="w-4 h-4 mr-2">
+                    <input id="in_stock" type="checkbox" value="1" wire:model.live="in_stock" class="w-4 h-4 mr-2 ">
                     <span class="text-lg dark:text-gray-400">{{ $products_status['in_stock'] }}</span>
                   </label>
                 </li>
@@ -93,9 +93,10 @@
             <div class="px-3 mb-4">
               <div class="items-center justify-between hidden px-3 py-2 bg-gray-100 md:flex dark:bg-gray-900 ">
                 <div class="flex items-center justify-between">
-                  <select name="" id="" class="block w-40 text-base bg-gray-100 cursor-pointer dark:text-gray-400 dark:bg-gray-900">
-                    <option value="">Les plus récents</option>
-                    <option value="">Les meilleurs prix</option>
+                  <select name="selected_section" id="selected_section" wire:model.live='selected_section' class="block w-40 text-base bg-gray-100 cursor-pointer dark:text-gray-400 dark:bg-gray-900">
+                    @foreach ($sections as $k => $section)
+                    <option value="{{$k}}">{{ $section }}</option>
+                    @endforeach
                   </select>
                 </div>
               </div>
@@ -108,7 +109,7 @@
                   <div class="relative bg-gray-200">
                     <a href="{{route('product', ['slug' => $product->slug])}}" class="">
                       @if(isset($product->images) && count($product->images) > 0 )
-                      <img src="{{url('storage', $product->images[0]) }}" alt="{{$product->name}}" class="object-cover w-full h-56 mx-auto ">
+                      <img src="{{url('storage', $product->images[$image_indexes[$product->id]['index']]) }}" alt="{{$product->name}}" class="object-cover w-full h-56 mx-auto ">
                       @else
                       <div class="object-cover w-full h-56 mx-auto flex justify-center bg-gray-600">
                           <b class="text-gray-500 text-center text-lg mt-32">Aucune image</b>
@@ -118,14 +119,18 @@
                   </div>
                   <div class="p-3 ">
                     <div class="flex items-center justify-between gap-2 mb-2">
-                      <h3 class="text-xl font-medium dark:text-gray-400">
-                        {{$product->name}}
+                      <h3 class="text-xl flex w-full justify-between font-medium dark:text-gray-400">
+                        <span>{{$product->name}}</span>
+                        @if(count($product->images) > 1)
+                        <img wire:click='reloadImageIndex({{$product->id}})' title="Recharger une autre image" class="w-5 h-5 hover:scale-125 hover:rotate-12 cursor-pointer float-right" src="{{url('images/icons/refresh.ico')}}"/>
+                        @endif
                       </h3>
                     </div>
                     <p class="text-lg ">
                       <span class="text-green-600 dark:text-green-600">
                         {{Number::currency($product->price, 'CFA')}}
                       </span>
+                      
                     </p>
                   </div>
                   <div class="flex justify-center p-4 border-t border-gray-300 dark:border-gray-700">
@@ -141,8 +146,6 @@
                 </div>
               </div>
               @endforeach
-             
-  
             </div>
             <!-- pagination start -->
             <div class="flex justify-end mt-6"> 
