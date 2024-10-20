@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use Akhaled\LivewireSweetalert\Toast;
 use App\Helpers\CartManager;
 use App\Livewire\Partials\Navbar;
 use App\Models\Brand;
@@ -13,10 +14,14 @@ use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
 
+
+
 #[Title('Les Catégories  - ZtweN eCOMMERCE')]
 
 class ProductsPage extends Component
 {
+
+    use Toast;
 
     protected $listeners = [
         'OnFireBrandSelected' => 'reloadBrandSelected',
@@ -96,7 +101,11 @@ class ProductsPage extends Component
     {
         $total_items = CartManager::addItemToCart($product_id);
 
+        $this->toast('Toast message', 'success', 5000);
+
         $this->dispatch('UpdateCartItemsCounter', $total_items)->to(Navbar::class);
+
+        
         
     }
 

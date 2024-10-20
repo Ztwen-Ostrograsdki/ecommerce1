@@ -4,8 +4,60 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "639b98088493b0d1a1f9ce134ec506da",
+    "content-hash": "651efdd91b7172f2441d3276df0f90e9",
     "packages": [
+        {
+            "name": "akhaled/livewire-sweetalert",
+            "version": "v0.2.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/akhled/livewire-sweetalert.git",
+                "reference": "33a2558be7c308799ed9343accd5238659a6c253"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/akhled/livewire-sweetalert/zipball/33a2558be7c308799ed9343accd5238659a6c253",
+                "reference": "33a2558be7c308799ed9343accd5238659a6c253",
+                "shasum": ""
+            },
+            "require": {
+                "livewire/livewire": "^3.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^6.18"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Akhaled\\LivewireSweetalert\\ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Akhaled\\LivewireSweetalert\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Amro Khaled",
+                    "email": "i@akhaled.com",
+                    "homepage": "http://akhaled.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Integration Sweetalert with Livewire",
+            "support": {
+                "issues": "https://github.com/akhled/livewire-sweetalert/issues",
+                "source": "https://github.com/akhled/livewire-sweetalert/tree/v0.2.3"
+            },
+            "time": "2024-08-03T20:15:11+00:00"
+        },
         {
             "name": "anourvalar/eloquent-serialize",
             "version": "1.2.25",
