@@ -47,13 +47,7 @@ class OrdersRelationManager extends RelationManager
 
                 SelectColumn::make('status')
                 ->label('Statut de la demande')
-                ->options([
-                'new' => "Nouvelle demande",
-                'processing' => "En cours de traitement",
-                'shipped' => "Expédié",
-                'delivered' => "Livrée",
-                'canceled' => "Annulée",
-                ])
+                ->options(config('app.order_status'))
                 ->searchable()
                 ->disabled()
                 ->sortable(),
@@ -61,25 +55,12 @@ class OrdersRelationManager extends RelationManager
                 SelectColumn::make('payment_method')
                 ->searchable()
                 ->disabled()
-                ->options([
-                'stripe' => "Stripe",
-                'cod' => "Payement en liquide",
-                'mtn' => "Mobile Money MTN",
-                'celtiis' => "Celtiis Cash",
-                'moov' => "Moov Money",
-                ])
+                ->options(config('app.payments_methods'))
                 ->label('Methode de payement')
                 ->sortable(),
 
                 SelectColumn::make('shipping_method')
-                ->options([
-                'fedex' => "FedEx",
-                'ups' => "UPS",
-                'dhl' => "DHL",
-                'usps' => "USPS",
-                'gozem' => "GoZem",
-                'other' => "Autre",
-                ])
+                ->options(config('app.shipping_methods'))
                 ->disabled()
                 ->sortable()
                 ->searchable()

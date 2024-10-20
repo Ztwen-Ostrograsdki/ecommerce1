@@ -16,64 +16,189 @@
 							<label class="block text-gray-700 dark:text-white mb-1" for="first_name">
 								Nom du receveur
 							</label>
-							<input name="first_name" wire:model='first_name' placeholder="Renseignez le nom du receveur..." class="w-full rounded-lg border py-2 px-3 dark:bg-gray-700 dark:text-white dark:border-none" id="first_name" type="text">
+							<input name="first_name" wire:model.live='first_name' placeholder="Renseignez le nom du receveur..." class="w-full @error('first_name') text-red-400 border border-red-700 @else dark:text-white @enderror rounded-lg py-2 px-3 dark:bg-gray-700 " id="first_name" type="text">
 							</input>
 							@error('first_name')
-								<small class="text-red-600"> {{ $message }} </small>
+								<div class="inset-y-0 relative mt-1 end-0 flex items-center pointer-events-none pe-3">
+									<svg class="h-5 w-5 text-red-500" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+										<path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
+									</svg>
+									<small class="text-red-400 mx-2 space-x-1">{{ $message }}</small>
+								</div>
 							@enderror
 						</div>
 						<div>
 							<label class="block text-gray-700 dark:text-white mb-1" for="last_name">
 								Prénoms du receveur
 							</label>
-							<input name="last_name" wire:model='last_name' placeholder="Renseignez les Prénoms du receveur..." class="w-full rounded-lg border py-2 px-3 dark:bg-gray-700 dark:text-white dark:border-none" id="last_name" type="text">
+							<input name="last_name" wire:model.live='last_name' placeholder="Renseignez les Prénoms du receveur..." class="w-full @error('last_name') text-red-400 border border-red-700 @else dark:text-white @enderror rounded-lg py-2 px-3 dark:bg-gray-700 " id="last_name" type="text">
 							</input>
 							@error('last_name')
-								<small class="text-red-600"> {{ $message }} </small>
+								<div class="inset-y-0 relative mt-1 end-0 flex items-center pointer-events-none pe-3">
+									<svg class="h-5 w-5 text-red-500" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+										<path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
+									</svg>
+									<small class="text-red-400 mx-2 space-x-1">{{ $message }}</small>
+								</div>
 							@enderror
 						</div>
 					</div>
-					<div class="mt-4">
-						<label class="block text-gray-700 dark:text-white mb-1" for="phone">
-							Contacts
-						</label>
-						<input name="phone" wire:model='phone' placeholder="Renseignez les contacts du receveur..." class="w-full rounded-lg border py-2 px-3 dark:bg-gray-700 dark:text-white dark:border-none" id="phone" type="text">
-						</input>
-						@error('phone')
-							<small class="text-red-600"> {{ $message }} </small>
-						@enderror
+					<div class="mt-4 grid grid-cols-2 gap-4">
+						<div>
+							<label class="block text-gray-700 dark:text-white mb-1" for="phone">
+								Contacts
+							</label>
+							<input name="phone" wire:model.live='phone' placeholder="Renseignez les contacts du receveur..." class="w-full @error('phone') text-red-400 border border-red-700 @else dark:text-white @enderror rounded-lg py-2 px-3 dark:bg-gray-700 " id="phone" type="text">
+								</input>
+								@error('phone')
+									<div class="inset-y-0 relative mt-1 end-0 flex items-center pointer-events-none pe-3">
+										<svg class="h-5 w-5 text-red-500" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+											<path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
+										</svg>
+										<small class="text-red-400 mx-2 space-x-1">{{ $message }}</small>
+									</div>
+								@enderror
+						</div>
+						<div class="">
+							<label class="block text-gray-700 dark:text-white mb-1" for="street_address">
+								Adresse
+							</label>
+							<input name="street_address" wire:model.live='street_address' placeholder="Renseignez l'adresse du receveur..." class="w-full @error('street_address') text-red-400 border border-red-700 @else dark:text-white @enderror rounded-lg py-2 px-3 dark:bg-gray-700 " id="street_address" type="text">
+								</input>
+								@error('street_address')
+									<div class="inset-y-0 relative mt-1 end-0 flex items-center pointer-events-none pe-3">
+										<svg class="h-5 w-5 text-red-500" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+											<path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
+										</svg>
+										<small class="text-red-400 mx-2 space-x-1">{{ $message }}</small>
+									</div>
+								@enderror
+						</div>
 					</div>
-					<div class="mt-4">
-						<label class="block text-gray-700 dark:text-white mb-1" for="street_address">
-							Adresse
-						</label>
-						<input name="street_address" wire:model='street_address' placeholder="Renseignez l'adresse de réception..." class="w-full rounded-lg border py-2 px-3 dark:bg-gray-700 dark:text-white dark:border-none" id="street_address" type="text">
-						</input>
-						@error('street_address')
-							<small class="text-red-600"> {{ $message }} </small>
-						@enderror
+					
+					<div class="mt-4 grid grid-cols-2 gap-4">
+						<div class="">
+							<label class="block text-gray-700 dark:text-white mb-1" for="city">
+								Ville
+							</label>
+							<input name="city" wire:model.live='city' placeholder="Renseignez la ville de réception..." class="w-full @error('city') text-red-400 border border-red-700 @else dark:text-white @enderror rounded-lg py-2 px-3 dark:bg-gray-700 " id="city" type="text">
+							</input>
+							@error('city')
+								<div class="inset-y-0 relative mt-1 end-0 flex items-center pointer-events-none pe-3">
+									<svg class="h-5 w-5 text-red-500" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+										<path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
+									</svg>
+									<small class="text-red-400 mx-2 space-x-1">{{ $message }}</small>
+								</div>
+							@enderror
+						</div>
+
+						<div class="">
+							<label class="block text-gray-700 dark:text-white mb-1" for="images">
+								Images de reférence (au plus 03)
+							</label>
+							<input multiple name="images" wire:model.live='images' placeholder="Renseignez des images de reférence..." class=" w-full @error('images') text-red-400 border border-red-700 @else dark:text-white @enderror rounded-lg py-2 px-3 dark:bg-gray-700 " id="images" type="file">
+							</input>
+							@error('images')
+								<div class="inset-y-0 relative mt-1 end-0 flex items-center pointer-events-none pe-3">
+									<svg class="h-5 w-5 text-red-500" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+										<path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
+									</svg>
+									<small class="text-red-400 mx-2 space-x-1">{{ $message }}</small>
+								</div>
+							@enderror
+						</div>
 					</div>
-					<div class="mt-4">
-						<label class="block text-gray-700 dark:text-white mb-1" for="city">
-							Ville
-						</label>
-						<input name="city" wire:model='city' placeholder="Renseignez la ville de réception..." class="w-full rounded-lg border py-2 px-3 dark:bg-gray-700 dark:text-white dark:border-none" id="city" type="text">
-						</input>
+					<div class="mt-4 grid grid-cols-2 gap-4">
+						<div class="">
+							<label class="block text-gray-700 dark:text-white mb-1" for="shipping_method">
+								Méthode livraison
+							</label>
+							<select name="shipping_method" wire:model.live='shipping_method' class="bg-slate-600 py-2 border rounded-md w-full text-lg @error('shipping_method') text-red-400 border-red-700 @else dark:text-white @enderror" id="shipping_method">
+								<option value="{{ null }}"> Sélectionner la méthode de livraison </option>
+								@foreach ($shipping_methods as $shpmk => $shm)
+									<option value="{{ $shpmk }}"> {{ $shm }} </option>
+								@endforeach
+							</select>
+							@error('shipping_method')
+								<div class="inset-y-0 relative mt-1 end-0 flex items-center pointer-events-none pe-3">
+									<svg class="h-5 w-5 text-red-500" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+										<path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
+									</svg>
+									<small class="text-red-400 mx-2 space-x-1">{{ $message }}</small>
+								</div>
+							@enderror
+						</div>
+
+						<div class="">
+							<label class="block text-gray-700 dark:text-white mb-1" for="currency">
+								La dévise
+							</label>
+							<select name="currency" wire:model.live='currency' class="bg-slate-600 py-2 border rounded-md w-full text-lg @error('currency') text-red-400 border-red-700 @else dark:text-white @enderror" id="currency">
+								<option value="{{ null }}"> Sélectionner la dévise </option>
+								@foreach ($currencies as $dk => $d)
+									<option value="{{ $dk }}"> {{ $d }} </option>
+								@endforeach
+							</select>
+							@error('currency')
+								<div class="inset-y-0 relative mt-1 end-0 flex items-center pointer-events-none pe-3">
+									<svg class="h-5 w-5 text-red-500" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+										<path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
+									</svg>
+									<small class="text-red-400 mx-2 space-x-1">{{ $message }}</small>
+								</div>
+							@enderror
+							
+						</div>
 					</div>
 					<div class="grid grid-cols-2 gap-4 mt-4">
 						<div>
 							<label class="block text-gray-700 dark:text-white mb-1" for="state">
 								Etat ou Commune
 							</label>
-							<input name="state" wire:model='state' placeholder="Dans quel état ou commune se trouve le récepteur...?" class="w-full rounded-lg border py-2 px-3 dark:bg-gray-700 dark:text-white dark:border-none" id="state" type="text">
+							<input name="state" wire:model.live='state' placeholder="Renseignez la commune ou l'état du receveur..." class="w-full @error('state') text-red-400 border border-red-700 @else dark:text-white @enderror rounded-lg py-2 px-3 dark:bg-gray-700 " id="state" type="text">
 							</input>
+							@error('state')
+								<div class="inset-y-0 relative mt-1 end-0 flex items-center pointer-events-none pe-3">
+									<svg class="h-5 w-5 text-red-500" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+										<path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
+									</svg>
+									<small class="text-red-400 mx-2 space-x-1">{{ $message }}</small>
+								</div>
+							@enderror
 						</div>
 						<div>
 							<label class="block text-gray-700 dark:text-white mb-1" for="zip_code">
 								Code ZIP ou Postal
 							</label>
-							<input name="zip_code" wire:model='zip_code' placeholder="Renseignez un code ZIP ou postal..." class="w-full rounded-lg border py-2 px-3 dark:bg-gray-700 dark:text-white dark:border-none" id="zip_code" type="text">
+							<input name="zip_code" wire:model.live='zip_code' placeholder="Renseignez le code ZIP ou postal..." class="w-full @error('zip_code') text-red-400 border border-red-700 @else dark:text-white @enderror rounded-lg py-2 px-3 dark:bg-gray-700 " id="zip_code" type="text">
 							</input>
+							@error('zip_code')
+								<div class="inset-y-0 relative mt-1 end-0 flex items-center pointer-events-none pe-3">
+									<svg class="h-5 w-5 text-red-500" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+										<path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
+									</svg>
+									<small class="text-red-400 mx-2 space-x-1">{{ $message }}</small>
+								</div>
+							@enderror
+						</div>
+					</div>
+					<div class="grid gap-4 mt-4">
+						<div>
+							<label class="block text-gray-700 dark:text-white mb-1" for="notes">
+								Ajouter une notes (Facultative)
+							</label>
+							<textarea name="notes" wire:model.live='notes' placeholder="Renseignez ce que vous voulez faire savoir..." class="w-full @error('notes') text-red-400 border border-red-700 @else dark:text-white @enderror rounded-lg py-2 px-3 dark:bg-gray-700 " id="notes" type="text">
+							
+							</textarea>
+							@error('notes')
+								<div class="inset-y-0 relative mt-1 end-0 flex items-center pointer-events-none pe-3">
+									<svg class="h-5 w-5 text-red-500" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+										<path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
+									</svg>
+									<small class="text-red-400 mx-2 space-x-1">{{ $message }}</small>
+								</div>
+							@enderror
 						</div>
 					</div>
 				</div>
@@ -84,12 +209,19 @@
 				</div>
 				<div class="w-full flex justify-between gap-4 mt-4">
 					<div class="w-7/12">
-						<select name="payment_method" wire:model='payment_method' class="bg-slate-600 py-2 border rounded-xl w-full text-center text-lg" name="" id="payment_method">
+						<select name="payment_method" wire:model.live='payment_method' class="bg-slate-600 py-2 border rounded-xl w-full text-center text-lg @error('payment_method') text-red-400 border-red-700 @else dark:text-white @enderror" id="payment_method">
 							<option value="{{ null }}"> Sélectionner la méthode de payement </option>
 							@foreach ($payments_methods as $key => $methd)
 								<option value="{{ $key }}"> {{ $methd }} </option>
 							@endforeach
 						</select>
+						@error('payment_method')
+							<div class="inset-y-0 relative mt-1 end-0 flex items-center pointer-events-none pe-3">
+							<svg class="h-5 w-5 text-red-500" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
+							<path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4zm.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2z" />
+							</svg>
+						</div>
+						@enderror
 					</div>
 					<div class="w-3/12">
 						<a href="{{route('my_cart')}}" class="bg-blue-500 w-full py-3 rounded-xl block text-center text-lg text-white hover:bg-blue-700">
@@ -97,6 +229,19 @@
 						</a>
 					</div>
 				</div>
+
+				<div class="border rounded-lg bg-slate-400 w-full p-2 text-center py-6 my-2" wire:loading wire:target='images'>
+					<b class=" text-gray-200 text-center">
+						Chargement image en cours... Veuillez patientez!
+					</b>
+				</div>
+				@if(count($images))
+				<div class="border grid grid-cols-3 gap-4 rounded-lg p-2 my-2" >
+					@foreach ($images as $image)
+						<img wire:loaded wire:target='images' class="mt-1 border rounded-sm" src="{{$image->temporaryUrl()}}" alt="">
+					@endforeach
+				</div>
+				@endif
 				
 			</div>
 			<!-- End Card -->
@@ -128,7 +273,7 @@
 						Coût de la livraion
 					</span>
 					<span>
-						0.00
+						{{ Number::currency($shipping_amount, 'CFA') }}
 					</span>
 				</div>
 				<hr class="bg-slate-400 my-4 h-1 rounded">
@@ -137,7 +282,7 @@
 						Montant total
 					</span>
 					<span>
-						{{ Number::currency($grand_total, 'CFA') }}
+						{{ Number::currency($grand_total + $shipping_amount, 'CFA') }}
 					</span>
 				</div>
 				</hr>

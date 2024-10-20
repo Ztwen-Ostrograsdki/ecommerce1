@@ -2,6 +2,7 @@
 
 use App\Livewire\Auth\ForgotPasswordPage;
 use App\Livewire\Auth\LoginPage;
+use App\Livewire\Auth\RegisterPage;
 use App\Livewire\Auth\ResetPasswordPage;
 use App\Livewire\CancelPage;
 use App\Livewire\CartsPage;
@@ -34,18 +35,28 @@ Route::get('/articles/marque.game={b?}', ProductsPage::class)->name('products.ho
 
 Route::get('/articles/article={slug}', ProductsDetailsPage::class)->name('product');
 Route::get('/mon-panier', CartsPage::class)->name('my_cart');
-Route::get('/articles/article={product}', CartsPage::class)->name('cart');
-Route::get('/validation-de-mon-panier', CheckoutPage::class)->name('checkout');
-Route::get('/mes-commandes', MyOrdersPage::class)->name('my_orders');
-Route::get('/mes-commandes/{order}', MyOrderDetailPage::class)->name('my_order');
+
 
 
 Route::get('/success', SuccessPage::class)->name('success');
 Route::get('/annule', CancelPage::class)->name('cancel');
 
 
-Route::get('/connexion', LoginPage::class)->name('login');
-Route::get('/inscription', LoginPage::class)->name('register');
-Route::get('/reinitialisation-mot-de-passe', ResetPasswordPage::class)->name('password.reset');
-Route::get('/mot-de-passe-oublie', ForgotPasswordPage::class)->name('password.forgot');
+
+Route::middleware(['auth'])->group(function(){
+    Route::get('/articles/article={product}', CartsPage::class)->name('cart');
+    Route::get('/validation-de-mon-panier', CheckoutPage::class)->name('checkout');
+    Route::get('/mes-commandes', MyOrdersPage::class)->name('my_orders');
+    Route::get('/mes-commandes/{order}', MyOrderDetailPage::class)->name('my_order');
+});
+
+Route::middleware(['guest'])->group(function(){
+    Route::get('/connexion', LoginPage::class)->name('login');
+    Route::get('/inscription', RegisterPage::class)->name('register');
+    Route::get('/reinitialisation-mot-de-passe', ResetPasswordPage::class)->name('password.reset');
+    Route::get('/mot-de-passe-oublie', ForgotPasswordPage::class)->name('password.forgot');
+});
+
+
+
 

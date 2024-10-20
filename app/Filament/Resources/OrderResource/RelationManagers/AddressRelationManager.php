@@ -3,18 +3,19 @@
 namespace App\Filament\Resources\OrderResource\RelationManagers;
 
 use Filament\Forms;
-use Filament\Tables;
-use Filament\Forms\Form;
-use Filament\Tables\Table;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Textarea;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Form;
+use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Tables;
+use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Filament\Resources\RelationManagers\RelationManager;
 
 class AddressRelationManager extends RelationManager
 {
@@ -76,9 +77,13 @@ class AddressRelationManager extends RelationManager
                     ])->columns(2),
 
                     Section::make('Images Associées: Ce sont des images qui sont à titre indicatifs')->schema([
-                        FileUpload::make('image')
-                                   ->label('Image associée')
+                        FileUpload::make('images')
+                                   ->label('Images de reférence')
                                    ->directory('addresses')
+                                   ->multiple()
+                                   ->required()
+                                   ->reorderable()
+                                   ->maxFiles(3)
 
                     ])->columnSpanFull()
 
@@ -111,6 +116,9 @@ class AddressRelationManager extends RelationManager
 
                 TextColumn::make('street_address')
                     ->label("Addresse"),
+
+                ImageColumn::make('images')
+                    ->label("Images pour localiser"),
                     
 
             ])
@@ -124,6 +132,7 @@ class AddressRelationManager extends RelationManager
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
+                Tables\Actions\ViewAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

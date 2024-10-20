@@ -14,6 +14,11 @@
             <p><a class="inline-flex gap-x-2  {{request()->is('categories') ? 'text-blue-600' : 'text-gray-500' }} hover:text-gray-200 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="{{route('categories.home')}}">Categories</a></p>
             <p><a class="inline-flex gap-x-2  {{request()->is('articles') ? 'text-blue-600' : 'text-gray-500' }} hover:text-gray-200 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="{{route('products.home')}}">Tous les articles</a></p>
             <p><a class="inline-flex gap-x-2  {{request()->is('articles-les-plus-vus') ? 'text-blue-600' : 'text-gray-500' }} hover:text-gray-200 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="{{route('products.home')}}">Les articles les plus vus</a></p>
+            
+            @if(!$cart_empty)
+            <p><a class="inline-flex gap-x-2  {{request()->is('mon-panier') ? 'text-blue-600' : 'text-gray-500' }} hover:text-gray-200 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="{{route('my_cart')}}">Mon panier</a></p>
+            <p><b wire:click='clearCart' class="inline-flex gap-x-2 cursor-pointer text-orange-600 hover:text-orange-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">Vider mon panier</b></p>
+            @endif
           </div>
         </div>
         <!-- End Col -->

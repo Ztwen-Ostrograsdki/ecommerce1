@@ -14,14 +14,16 @@ class MyComponent extends Component
         $this->confirm(
             event: 'savedConfirmed',
             data: [
-                'key' => 'value',
+                'key' => 'value'
             ]
-        )
+            )
     }
 
     #[On('savedConfirmed')]
     public function onSavedConfirmations(array $data)
     {
         dd($data['key']); // value
+
+        
     }
 }

@@ -9,12 +9,10 @@
               </div>
               <div class="flex-wrap hidden md:flex ">
                 @foreach ($product->images as $image)
-                <div class="w-1/2 p-2 sm:w-1/4" x-on:click="mainImage='{{url('storage', $image)}}'">
+                <div class="w-1/2 p-2 opacity-70 hover:opacity-100 transition-opacity sm:w-1/4" x-on:click="mainImage='{{url('storage', $image)}}'">
                   <img src="{{url('storage', $image)}}" alt="{{$product->name}}" class="object-cover w-full lg:h-20 cursor-pointer hover:border hover:border-blue-500">
                 </div>
                 @endforeach
-  
-                
               </div>
               <div class="px-6 pb-6 mt-6 border-t border-gray-300 dark:border-gray-400 ">
                 <div class="flex flex-wrap items-center mt-6">
@@ -62,8 +60,15 @@
                 </div>
               </div>
               <div class="flex flex-wrap items-center gap-4">
-                <button wire:click='addToCart({{$product->id}})' class="w-full p-4 bg-blue-500 rounded-md lg:w-2/5 dark:text-gray-200 text-gray-50 hover:bg-blue-600 dark:bg-blue-500 dark:hover:bg-blue-700">
-                  <span wire:loading.remove wire:target='addToCart({{$product->id}})'>Ajouter au panier</span> <span wire:loading wire:target='addToCart({{$product->id}})'>Ajout en cours...</span>
+                <button wire:click='addToCart({{$product->id}})' class="w-full p-4 bg-blue-500 rounded-md dark:text-gray-200 text-gray-50 hover:bg-blue-600 dark:bg-blue-500 dark:hover:bg-blue-700">
+                  
+                  @if(array_key_exists($product->id, $carts_items))
+                    <span wire:loading.remove wire:target='addToCart({{$product->id}})'>Ajouter encore au panier</span> <span wire:loading wire:target='addToCart({{$product->id}})'>Ajout en cours...</span>
+                    <b class="text-gray-700"> ({{ $carts_items[$product->id]['quantity'] }} déjà ajouté(s)) </b>
+                  @else
+                    <span wire:loading.remove wire:target='addToCart({{$product->id}})'>Ajouter au panier</span> <span wire:loading wire:target='addToCart({{$product->id}})'>Ajout en cours...</span>
+
+                  @endif
                 </button>
               </div>
             </div>

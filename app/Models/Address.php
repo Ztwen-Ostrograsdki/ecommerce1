@@ -25,6 +25,11 @@ class Address extends Model
 
     ];
 
+    protected $casts = [
+        'images' => 'array',
+
+    ];
+
     public function order()
     {
         return $this->belongsTo(Order::class);
@@ -39,4 +44,6 @@ class Address extends Model
     {
         return "{$this->first_name} {$this->last_name}";
     }
+
+   
 }

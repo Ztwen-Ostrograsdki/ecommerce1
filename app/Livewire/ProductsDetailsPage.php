@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Helpers\CartManager;
 use App\Livewire\Partials\Navbar;
 use App\Models\Product;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Title;
 use Livewire\Component;
 
@@ -12,6 +13,8 @@ use Livewire\Component;
 class ProductsDetailsPage extends Component
 {
     public $slug;
+
+    public $carts_items = [];
 
     public $quantity = 1;
 
@@ -42,7 +45,7 @@ class ProductsDetailsPage extends Component
     {
         $total_items = CartManager::addItemToCart($product_id, $this->quantity);
 
-        $this->dispatch('UpdateCartItemsCounter', $total_items)->to(Navbar::class);
+        $this->dispatch('UpdateCartItemsCounter', $total_items);
         
     }
 
@@ -50,6 +53,14 @@ class ProductsDetailsPage extends Component
     public function mount($slug)
     {
         $this->slug = $slug;
+
+        $this->carts_items = CartManager::getAllCartItemsFromCookies();
+    }
+
+    #[On('UpdateCartItemsCounter')]
+    public function updateCartItemsCounter($counter = null)
+    {
+        $this->carts_items = CartManager::getAllCartItemsFromCookies();
     }
 
 

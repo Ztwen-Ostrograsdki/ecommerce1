@@ -244,31 +244,14 @@ class OrderResource extends Resource
 
                 SelectColumn::make('status')
                            ->label('Statut de la demande')
-                           ->options([
-                            'new' => "Nouvelle demande",
-                            'processing' => "En cours de traitement",
-                            'shipped' => "Expédié",
-                            'delivered' => "Livrée",
-                            'canceled' => "Annulée",
-                           ]),
+                           ->options(config('app.order_status')),
 
                 SelectColumn::make('currency')
                            ->label('Devise')
-                           ->options([
-                            'inr' => "INR",
-                            'usd' => "USD",
-                            'cfa' => "CFA",
-                           ]),
+                           ->options(config('app.currencies')),
                 
                 SelectColumn::make('shipping_method')
-                              ->options([
-                                'fedex' => "FedEx",
-                                'ups' => "UPS",
-                                'dhl' => "DHL",
-                                'usps' => "USPS",
-                                'gozem' => "GoZem",
-                                'other' => "Autre",
-                              ])
+                              ->options(config('app.shipping_methods'))
                               ->disabled()
                               ->label('Methode de livraison'),
                 

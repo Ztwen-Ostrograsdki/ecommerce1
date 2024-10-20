@@ -49,7 +49,7 @@ class CartsPage extends Component
 
         $this->grand_total = CartManager::getComputedGrandTotalValue($this->carts_items);
 
-        $this->dispatch('UpdateCartItemsCounter', count($this->carts_items))->to(Navbar::class);
+        $this->dispatch('UpdateCartItemsCounter', count($this->carts_items));
 
     }
 
@@ -57,7 +57,7 @@ class CartsPage extends Component
     {
         $this->carts_items = CartManager::clearCartItemsFromCookies();
 
-        $this->dispatch('UpdateCartItemsCounter', count($this->carts_items))->to(Navbar::class);
+        $this->dispatch('UpdateCartItemsCounter', count($this->carts_items));
 
         $this->grand_total = CartManager::getComputedGrandTotalValue($this->carts_items);
 

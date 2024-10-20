@@ -9,6 +9,7 @@ use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Support\Str;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Url;
 use Livewire\Component;
@@ -53,6 +54,8 @@ class ProductsPage extends Component
 
     public $max_price = 90000000;
 
+    public $carts_items = [];
+
     public $sections = [
         'by_created_at' => 'Les plus récents',
         'by_price_up' => 'Prix croissants',
@@ -70,8 +73,6 @@ class ProductsPage extends Component
 
     public function reloadBrandSelected($brand_id)
     {
-        dd($this);
-
         $this->selected_brands[] = $brand_id;
     }
 
@@ -95,15 +96,21 @@ class ProductsPage extends Component
                 $this->selected_categories[] = $category->id;
             }
         }
+
+        $this->carts_items = CartManager::getAllCartItemsFromCookies();
     }
 
     public function addToCart(int $product_id)
     {
         $total_items = CartManager::addItemToCart($product_id);
 
-        $this->toast('Toast message', 'success', 5000);
+        $name = Product::find($product_id)->name;
 
-        $this->dispatch('UpdateCartItemsCounter', $total_items)->to(Navbar::class);
+        $message = "L'article $name a été ajouté au panier";
+
+        $this->toast($message, 'success', 5000);
+
+        $this->dispatch('UpdateCartItemsCounter', $total_items);
 
         
         
@@ -249,5 +256,16 @@ class ProductsPage extends Component
 
             $this->current_index = $product_id;
         } 
+    }
+
+    public function removeAll($cart, $f)
+    {
+        
+    }
+
+    #[On('UpdateCartItemsCounter')]
+    public function updateCartItemsCounter($counter = null)
+    {
+        $this->carts_items = CartManager::getAllCartItemsFromCookies();
     }
 }
