@@ -53,7 +53,7 @@ Route::middleware(['auth'])->group(function(){
 Route::middleware(['guest'])->group(function(){
     Route::get('/connexion', LoginPage::class)->name('login');
     Route::get('/inscription', RegisterPage::class)->name('register');
-    Route::get('/reinitialisation-mot-de-passe', ResetPasswordPage::class)->name('password.reset');
+    Route::get('/reinitialisation-mot-de-passe/{token?}', ResetPasswordPage::class)->name('password.reset');
     Route::get('/mot-de-passe-oublie', ForgotPasswordPage::class)->name('password.forgot');
 });
 

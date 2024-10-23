@@ -15,6 +15,7 @@
         </main>
         @livewire('partials.footer')
         @livewireScripts
+        <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         @livewireSweetalertScripts
     </body>

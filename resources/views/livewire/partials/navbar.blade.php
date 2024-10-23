@@ -60,6 +60,18 @@
               </button>
   
               <div class="hs-dropdown-menu transition-[opacity,margin] duration-[0.1ms] md:duration-[150ms] hs-dropdown-open:opacity-100 opacity-0 md:w-48 hidden z-10 bg-white md:shadow-md rounded-lg p-2 dark:bg-gray-800 md:dark:border dark:border-gray-700 dark:divide-gray-700 before:absolute top-full md:border before:-top-5 before:start-0 before:w-full before:h-5">
+                
+                
+                @if(auth()->user()->profil_photo)
+                <a class="rounded-full p-0 m-0 px-3 mb-2 mx-auto flex items-center justify-between" href="#">
+                  <span class="text-orange-600"> 
+                    <b>{{ auth()->user()->name }}</b>
+                    <small class="text-orange-400">{{ auth()->user()->email }}</small>
+                  </span>
+                  <img class="h-10 w-10 border rounded-full m-0 p-0 flex items-center gap-x-3.5 text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300 dark:focus:outline-none dark:focus:ring-1" src="{{ url('storage', auth()->user()->profil_photo) }}" alt="Photo de profil">
+                </a>
+                <hr class="mb-2">
+                @endif
                 <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300 dark:focus:outline-none dark:focus:ring-1 " href="{{route('my_orders')}}">
                   Mes commandes
                 </a>

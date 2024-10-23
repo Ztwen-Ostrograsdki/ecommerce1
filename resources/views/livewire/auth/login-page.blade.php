@@ -19,6 +19,12 @@
             </div>
   
             <hr class="mb-5 mt-2 border-slate-300">
+
+              @if(session()->has('error'))
+              <span class="text-dark bg-red-400 border block rounded-md p-2 border-red-950 text-center">
+                <b>{{ session('error')}}</b>
+              </span>
+              @endif
   
             <!-- Form -->
             <form wire:submit.prevent='login'>

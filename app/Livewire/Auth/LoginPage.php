@@ -3,6 +3,7 @@
 namespace App\Livewire\Auth;
 
 use Akhaled\LivewireSweetalert\Toast;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -11,7 +12,7 @@ class LoginPage extends Component
 {
     use Toast;
 
-    #[Validate('required|email|exists:users|min:3|max:255')]
+    #[Validate('required|email|exists:users|max:255')]
     public $email;
 
     #[Validate('required|string|min:5')]
@@ -24,7 +25,31 @@ class LoginPage extends Component
 
     public function login()
     {
-        if($this->validate()){
+        $user = User::where('email', $this->email)->first();
+
+        if(!$this->email){
+
+            $message = "Email invalide";
+
+            session()->flash('error', $message);
+
+            $this->toast($message, 'info', 7000);
+
+            $this->addError('email', "Entrez une adrresse mail");
+        }
+        elseif($this->email && !$user){
+
+            $message = "Données incorrectes ou inconnues: Veuillez entrer une adresse valide";
+
+            session()->flash('error', $message);
+
+            $this->toast($message, 'info', 7000);
+
+            $this->addError('email', "Aucune correspondance trouvée");
+        }
+
+        
+        if($this->validate() && $user){
 
             $data = ['email' => $this->email, 'password' => $this->password];
 
