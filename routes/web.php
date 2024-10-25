@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\Auth\EmailVerificationPage;
 use App\Livewire\Auth\ForgotPasswordPage;
 use App\Livewire\Auth\LoginPage;
 use App\Livewire\Auth\RegisterPage;
@@ -53,9 +54,12 @@ Route::middleware(['auth'])->group(function(){
 Route::middleware(['guest'])->group(function(){
     Route::get('/connexion', LoginPage::class)->name('login');
     Route::get('/inscription', RegisterPage::class)->name('register');
-    Route::get('/reinitialisation-mot-de-passe/{token?}', ResetPasswordPage::class)->name('password.reset');
+    Route::get('/verification-email/email={email}/{key?}', EmailVerificationPage::class)->name('email.verification');
+    Route::get('/reinitialisation-mot-de-passe/token={token?}/email={email?}', ResetPasswordPage::class)->name('password.reset');
+    Route::get('/reinitialisation-mot-de-passe/par-email/email={email?}/{key?}', ResetPasswordPage::class)->name('password.reset.by.email');
     Route::get('/mot-de-passe-oublie', ForgotPasswordPage::class)->name('password.forgot');
 });
+
 
 
 

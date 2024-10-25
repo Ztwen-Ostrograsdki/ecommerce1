@@ -5,6 +5,7 @@ namespace App\Livewire\Auth;
 use Akhaled\LivewireSweetalert\Toast;
 use App\Models\User;
 use App\Notifications\SendPasswordResetKeyToUser;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use Livewire\Attributes\Validate;
@@ -54,22 +55,13 @@ class ForgotPasswordPage extends Component
 
         if($this->validate() && $user){
 
-            //Password::sendResetLink($this->email);
+            Password::sendResetLink(['email' => $this->email]);
 
-            //$status = Password::RESET_LINK_SENT;
-
-            $status  = true;
+            $status = Password::RESET_LINK_SENT;
 
             if($status){
 
-                $password_reset_key = Str::random(6);
-
-                $password_reset_key = 123456;
-
-                //$user->notify(new SendPasswordResetKeyToUser($password_reset_key));
-                //$user->forceFill([
-                //    'password_reset_key' => $password_reset_key
-                //])->save();
+                $user->sendPasswordResetKeyToUser();
 
                 $this->resetErrorBag();
 
@@ -79,7 +71,7 @@ class ForgotPasswordPage extends Component
 
                 session()->flash('success', $message);
 
-                return redirect(route('password.reset'));
+                return redirect(route('password.reset.by.email', ['email' => $this->email]));
             }
             else{
 

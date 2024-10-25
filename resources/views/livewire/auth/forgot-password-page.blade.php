@@ -47,7 +47,14 @@
                     @enderror
                   </div>
                   <!-- End Form Group -->
-                  <span wire:click='submitForm' class="cursor-pointer w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">Réinitialiser mot de passe</span>
+                  <a wire:loading.class='opacity-50' wire:target='submitForm' href="#" wire:click='submitForm' class="cursor-pointer w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+                    <span wire:loading.remove wire:target='submitForm'>Réinitialiser mot de passe</span>
+                    <span wire:loading wire:target="submitForm">
+                      <span class="animate-spin fas fa-rotate"></span>
+                      En cours de traitement...
+                    </span>
+                  </a>
+                  
                 </div>
               </form>
               <!-- End Form -->

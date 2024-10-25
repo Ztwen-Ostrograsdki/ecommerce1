@@ -25,6 +25,12 @@
                 <b>{{ session('error')}}</b>
               </span>
               @endif
+
+              @if(session()->has('success'))
+              <span class="text-dark bg-green-400 border block text-sm rounded-md p-2 border-green-950 text-center">
+                <b>{{ session('success')}}</b>
+              </span>
+              @endif
   
             <!-- Form -->
             <form wire:submit.prevent='login'>
@@ -69,9 +75,13 @@
                 </div>
 
                 <!-- End Form Group -->
-                <span wire:click='login' class="w-full cursor-pointer py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
-                  Se Connecter
-                </span>
+                <a wire:loading.class='opacity-50' wire:target='login' href="#" wire:click='login' class="w-full cursor-pointer py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+                  <span wire:loading.remove wire:target='login'>Se Connecter</span>
+                  <span wire:loading wire:target='login'>
+                    Traitement...
+                    <span class="animate-spin fa fas fa-rotate"></span>
+                  </span>
+                </a>
               </div>
             </form>
             

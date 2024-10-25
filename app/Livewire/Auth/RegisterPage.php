@@ -4,6 +4,7 @@ namespace App\Livewire\Auth;
 
 use Akhaled\LivewireSweetalert\Toast;
 use App\Models\User;
+use App\Notifications\SendEmailVerificationKeyToUser;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -67,11 +68,38 @@ class RegisterPage extends Component
 
             if($user){
 
-                $auth = auth()->login($user);
+                $email_verify_key = Str::random(6);
 
-                $this->toast("Vous avez été enregistré avec succès! Veuillez vérifier votre boite mail afin de confirmer votre compte!", 'success');
+                $user->notify(new SendEmailVerificationKeyToUser($email_verify_key));
 
-                return redirect()->intended();
+                $auth = $user->forceFill([
+                   'email_verify_key' => Hash::make($email_verify_key)
+                ])->save();
+
+                if($auth){
+
+                    $message = "Incription lancée avec succès! Un courriel vous a été envoyé pour confirmation, veuillez vérifier votre boite mail.";
+
+                    $this->toast($message, 'info', 5000);
+
+                    session()->flash('success', $message);
+
+                    return redirect(route('email.verification', ['email' => $this->email]))->with('success', "Confirmer votre compte en renseignant le code qui vous été envoyé!");
+                    
+                }
+                else{
+
+                    $user->delete();
+
+                    if($this->profil_photo){
+                    
+                        Storage::delete($file_name . '.' . $extension);
+                    }
+
+                    redirect(route('register'))->with('error', "L'incription a échoué! Veuillez réessayer!");
+
+                }
+                
             }
             else{
 

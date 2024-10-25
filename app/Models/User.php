@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Helpers\Dater\TraitsManagers\Users\UserTrait;
 use App\Models\Order;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
@@ -11,7 +13,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, UserTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -35,6 +37,7 @@ class User extends Authenticatable
         'password',
         'remember_token',
         'password_reset_key',
+        'email_verify_key'
     ];
 
     /**

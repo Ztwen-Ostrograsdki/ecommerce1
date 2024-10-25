@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('password_reset_key')->nullable()->default(null);
+            $table->string('email_verify_key')->nullable()->default(null);
         });
     }
 

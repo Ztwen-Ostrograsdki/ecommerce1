@@ -125,9 +125,13 @@
                   @enderror
                 </div>
                 <!-- End Form Group -->
-                <span wire:click='register' class="w-full cursor-pointer py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
-                  S'inscrire
-                </span>
+                <a href="#" wire:click='register' wire:loading.class='opacity-50' wire:target='register' class="w-full cursor-pointer py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+                  <span wire:loading.remove wire:target='register'>S'inscrire</span>
+                  <span wire:loading wire:target='register'>
+                    <span class="fa animate-spin fa-rotate"></span>
+                    Traitement en cours...
+                  </span>
+                </a>
               </div>
             </form>
             <!-- End Form -->

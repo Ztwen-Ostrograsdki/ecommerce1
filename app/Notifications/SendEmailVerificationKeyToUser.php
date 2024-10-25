@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class SendPasswordResetKeyToUser extends Notification
+class SendEmailVerificationKeyToUser extends Notification
 {
     use Queueable;
 
@@ -39,8 +39,8 @@ class SendPasswordResetKeyToUser extends Notification
         return (new MailMessage)
                     ->line('Bonjour Mr/Mme' . $notifiable->name)
                     ->line('Vous recevez ce courriel parce que')
-                    ->line('Vous avez fait une demande de réinitialisation de votre mot de passe sur le compte' . $notifiable->email)
-                    ->action('Réinitialiser mon mot de passe', url(route('password.reset.by.email', ['email' => $notifiable->email, 'key' => $this->key])))
+                    ->line("Vous avez lancer l'inscription sur " . config('app.name') . " avec l'addresse : " . $notifiable->email)
+                    ->action('Confirmez votre compte', url(route('email.verification', ['email' => $notifiable->email, 'key' => $this->key])))
                     ->line('La clé est :' . $this->key)
                     ->line('Merci pour votre fidélité');
     }

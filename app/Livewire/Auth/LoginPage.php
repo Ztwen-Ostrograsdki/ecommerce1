@@ -53,6 +53,20 @@ class LoginPage extends Component
 
             $data = ['email' => $this->email, 'password' => $this->password];
 
+            if(!$user->email_verified_at){
+
+                $message = "Ce compte n'a pas encore été vérifié";
+
+                $this->toast($message, 'warning', 5000);
+
+                session()->flash('error', $message);
+
+                $user->sendVerificationLinkOrKeyToUser();
+
+                return redirect(route('email.verification', ['email' => $this->email]))->with('success', "Pour vous connecter, confirmer votre compte en renseignant le code qui vous été envoyé!");
+
+            }
+
             if(Auth::attempt($data)){
 
                 $this->toast("Connexion établie!", 'success');
