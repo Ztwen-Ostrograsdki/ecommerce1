@@ -36,6 +36,25 @@ trait UserTrait{
         return $this->emailVerified();
     }
 
+    public function markAsNotVerified()
+    {
+        $email_verify_key = Str::random(6);
+
+        if(!$this->emailNotVerified()){
+    
+            $this->forceFill([
+                'email_verify_key' => $email_verify_key,
+                'email_verified_at' => null,
+                'remember_token' => null,
+            ]);
+ 
+            $this->save();
+
+        }
+
+        return $this->emailNotVerified();
+    }
+
     public function sendVerificationLinkOrKeyToUser()
     {
         if($this->emailVerified()){
@@ -66,6 +85,19 @@ trait UserTrait{
             'password_reset_key' => Hash::make($password_reset_key)
         ])->save();
     }
+
+    public function markUserAsVerifiedOrNot(bool $as_verified, bool $as_not_verified)
+    {
+        return ($as_verified === true || $as_not_verified === false) ? $this->markAsVerified() : $this->markAsNotVerified();
+    }
+
+
+    public function blockUserAccount()
+    {
+
+    }
+
+
 
 
 

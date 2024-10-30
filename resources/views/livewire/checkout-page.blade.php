@@ -1,6 +1,6 @@
 <div class="w-full max-w-[85rem] py-10 px-4 sm:px-6 lg:px-8 mx-auto">
 	<h1 class="text-2xl font-bold text-gray-800 dark:text-white mb-4">
-		Payement
+		Processus de validation du panier
 	</h1>
 	<div class="grid grid-cols-12 gap-4">
 		<div class="md:col-span-12 lg:col-span-8 col-span-12">
@@ -8,7 +8,7 @@
 			<div class="bg-white rounded-xl shadow p-4 sm:p-7 dark:bg-slate-900">
 				<!-- Shipping Address -->
 				<div class="mb-6">
-					<h2 class="text-xl font-bold underline text-gray-700 dark:text-white mb-2">
+					<h2 class="text-xl font-bold text-gray-700 dark:text-white mb-2">
 						Adresse de livraion
 					</h2>
 					<div class="grid grid-cols-2 gap-4">
@@ -287,9 +287,13 @@
 				</div>
 				</hr>
 			</div>
-			<button wire:click='checkout' class="bg-green-500 mt-4 w-full p-3 rounded-lg text-lg text-white hover:bg-green-700">
-				Soumettre l'achat
-			</button>
+			<a href="#" wire:click='checkout' wire:loading.class='opacity-50' wire:target='checkout' class="cursor-pointer py-3 px-4 inline-flex justify-center items-center gap-x-2 font-semibold border border-transparent bg-green-500 mt-4 w-full p-3 rounded-lg text-lg text-white hover:bg-green-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+				<span wire:loading wire:target='checkout'>
+					<span class="fa animate-spin fa-rotate float-end mt-2"></span>
+					<span class="mx-2">Traitement en cours </span>
+				</span>
+				<span wire:loading.remove wire:target='checkout'>Soumettre l'achat</span>
+			  </a>
 			<div class="bg-white mt-4 rounded-xl shadow p-4 sm:p-7 dark:bg-slate-900">
 				<div class="text-xl font-bold underline text-gray-700 dark:text-white mb-2">
 					Détails du panier <span class="float-right text-orange-500">{{ App\Helpers\Dater\Formattors\Formattors::numberZeroFormattor(count($carts_items)) }} article(s)</span>

@@ -19,13 +19,12 @@ class RegisterPage extends Component
     #[Validate('required|email|unique:users|min:3|max:255')]
     public $email;
 
-    #[Validate('required|string|confirmed:password|min:5')]
+    #[Validate('required|string|confirmed|min:5')]
     public $password;
     
     #[Validate('nullable|image|mimes:jpeg,png,jpg|max:2400')]
     public $profil_photo;
 
-    #[Validate('required|string|min:5')]
     public $password_confirmation;
 
     #[Validate('required|string|min:3|max:255')]
@@ -68,13 +67,7 @@ class RegisterPage extends Component
 
             if($user){
 
-                $email_verify_key = Str::random(6);
-
-                $user->notify(new SendEmailVerificationKeyToUser($email_verify_key));
-
-                $auth = $user->forceFill([
-                   'email_verify_key' => Hash::make($email_verify_key)
-                ])->save();
+                $auth = $user->sendVerificationLinkOrKeyToUser();
 
                 if($auth){
 
@@ -103,6 +96,12 @@ class RegisterPage extends Component
             }
             else{
 
+                $message = "L'incription a échoué! Veuillez réessayer!";
+
+                session()->flash('error', $message);
+
+                $this->toast($message, 'error', 7000);
+
                 if($this->profil_photo){
                     
                     Storage::delete($file_name . '.' . $extension);
@@ -111,8 +110,19 @@ class RegisterPage extends Component
             }
         }
         else{
+
+            $message = "Le formulaire est incorrecte!";
+
+            session()->flash('error', $message);
+
+            $this->toast($message, 'error', 7000);
             
         }
 
+    }
+
+    public function updated($password_confirmation)
+    {
+        $this->validateOnly('password');
     }
 }

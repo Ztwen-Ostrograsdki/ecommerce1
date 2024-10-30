@@ -3,6 +3,8 @@
 namespace App\Livewire;
 
 use Akhaled\LivewireSweetalert\Toast;
+use App\Events\EventNewProductWasCreated;
+use App\Events\ProductAdded;
 use App\Helpers\CartManager;
 use App\Livewire\Partials\Navbar;
 use App\Models\Brand;
@@ -56,6 +58,8 @@ class ProductsPage extends Component
 
     public $carts_items = [];
 
+    public $counter = 0;
+
     public $sections = [
         'by_created_at' => 'Les plus récents',
         'by_price_up' => 'Prix croissants',
@@ -74,6 +78,14 @@ class ProductsPage extends Component
     public function reloadBrandSelected($brand_id)
     {
         $this->selected_brands[] = $brand_id;
+    }
+
+    #[On('LiveEventNewProductWasCreated')]
+    public function refresh($product)
+    {
+        $message = "Un nouvel article créé ou édité";
+
+        $this->toast($message, 'success', 5000);
     }
 
     public function resetPriceRange()

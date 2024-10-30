@@ -1,5 +1,6 @@
 <?php
 
+use App\Broadcasting\ProductChannel;
 use Illuminate\Support\Facades\Broadcast;
 
 /*
@@ -16,3 +17,20 @@ use Illuminate\Support\Facades\Broadcast;
 Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
+
+Broadcast::channel('product-line', function ($user, $id) {
+
+    return true;
+
+});
+
+
+
+Broadcast::channel('online', function ($user) {
+
+    if(true){
+
+        return ['id' => 1, 'pseudo' => "Ztwen", 'email' => 'houndekz@gamil.com', 'role' => "okay"];
+    }
+});
+

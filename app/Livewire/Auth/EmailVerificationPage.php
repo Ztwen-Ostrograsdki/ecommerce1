@@ -70,7 +70,7 @@ class EmailVerificationPage extends Component
 
         if(!$this->user){
 
-            $user = User::where('email', $this->email)->whereNotNull('email_verify_key')->first();
+            $user = User::where('email', $this->email)->whereNull('email_verify_key')->first();
 
             if($user){
 
@@ -103,11 +103,13 @@ class EmailVerificationPage extends Component
 
                 $hash_key = $user->email_verify_key;
 
-                $this->key_expired = $user->updated_at >= 3600 * 24;
+                $check = Hash::check($this->email_verify_key, $hash_key);
 
-                if(!$this->key_expired){
+                if($check){
 
-                    if(Hash::check($this->email_verify_key, $hash_key)){
+                    $this->key_expired = Carbon::parse($user->updated_at)->diffInMinutes() >= 60 * 24;
+
+                    if(!$this->key_expired){
 
                         if(!$user->email_verified_at){
     
@@ -121,8 +123,10 @@ class EmailVerificationPage extends Component
                         }
     
                         if($status){
+
+                            $texto = "Votre compte ..." . $this->email . " ... a été confirmé avec succès!";
     
-                            return redirect(route('login'))->with('success', "Votre compte a été confirmé avec succès!");
+                            return redirect(route('login'))->with('success', $texto);
                         }
                         else{
     
@@ -137,26 +141,27 @@ class EmailVerificationPage extends Component
                         }
                     }
                     else{
-    
-                        $message = "La clé ne correspond pas";
+                        $message = "La clé a déjà expiré";
     
                         session()->flash('error', $message);
-    
+
                         $this->toast($message, 'info', 7000);
-    
+
                         $this->addError('email_verify_key', $message);
+                        
         
                     }
                 }
                 else{
 
-                    $message = "La clé a déjà expiré";
+                    $message = "La clé ne correspond pas";
     
                     session()->flash('error', $message);
 
                     $this->toast($message, 'info', 7000);
 
                     $this->addError('email_verify_key', $message);
+
                 }
 
             }
@@ -175,6 +180,46 @@ class EmailVerificationPage extends Component
         }
 
         
+    }
+
+    public function requestNewConfirmationKey()
+    {
+        $email = $this->email;
+
+        if($email){
+
+            $user = User::where('email', $email)->whereNull('email_verified_at')->first();
+
+            if($user){
+
+                $user->sendVerificationLinkOrKeyToUser();
+
+                $message = "Demande lancée avec succès! Un courriel vous a été envoyé pour confirmation, veuillez vérifier votre boite mail.";
+
+                $this->toast($message, 'info', 5000);
+
+                session()->flash('success', $message);
+
+                return redirect(route('email.verification', ['email' => $this->email]))->with('success', "Confirmer votre compte en renseignant le code qui vous été envoyé!");
+            }
+            else{
+                $message = "Adresse mail non reconnu";
+
+                session()->flash('info', $message);
+
+                $this->toast($message, 'info', 7000);
+            }
+        }
+        else{
+
+            $message = "Veuillez renseigner l'adresse mail";
+
+            session()->flash('info', $message);
+
+            $this->toast($message, 'info', 7000);
+
+        }
+
     }
 
 

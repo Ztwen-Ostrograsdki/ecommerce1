@@ -6,9 +6,12 @@ use App\Helpers\Dater\DateFormattor;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\OrderItem;
-use Illuminate\Database\Eloquent\Model;
+use App\Observers\ObserveProduct;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
+#[ObservedBy([ObserveProduct::class])]
 class Product extends Model
 {
     use HasFactory, DateFormattor;

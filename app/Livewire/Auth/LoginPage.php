@@ -47,11 +47,12 @@ class LoginPage extends Component
 
             $this->addError('email', "Aucune correspondance trouvée");
         }
+        if($user){
 
-        
-        if($this->validate() && $user){
-
-            $data = ['email' => $this->email, 'password' => $this->password];
+            $data = [
+                'email' => $this->email, 
+                'password' => $this->password
+            ];
 
             if(!$user->email_verified_at){
 
@@ -61,13 +62,15 @@ class LoginPage extends Component
 
                 session()->flash('error', $message);
 
-                $user->sendVerificationLinkOrKeyToUser();
+                //$user->sendVerificationLinkOrKeyToUser();
 
                 return redirect(route('email.verification', ['email' => $this->email]))->with('success', "Pour vous connecter, confirmer votre compte en renseignant le code qui vous été envoyé!");
 
             }
 
-            if(Auth::attempt($data)){
+            $auth = Auth::attempt($data);
+
+            if($auth){
 
                 $this->toast("Connexion établie!", 'success');
 
@@ -76,7 +79,7 @@ class LoginPage extends Component
                 return redirect()->intended();
             }
             else{
-                $this->toast("Aucune correspondance touvée", 'error');
+                $this->toast("Données incorrectes", 'error');
 
                 $this->addError('email', "Les informations ne correspondent pas");
 

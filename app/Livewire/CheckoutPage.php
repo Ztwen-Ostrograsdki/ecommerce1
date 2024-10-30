@@ -47,7 +47,7 @@ class CheckoutPage extends Component
     #[Validate('required|string|min:3|max:255')]
     public $state;
 
-    #[Validate('required|string|betwen:4, 12')]
+    #[Validate('required|string|betweEn:4, 12')]
     public $zip_code;
 
     #[Validate('required|string|min:3|max:255')]

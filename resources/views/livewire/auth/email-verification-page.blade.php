@@ -4,7 +4,9 @@
         <div class="mt-7 bg-white border border-gray-200 rounded-xl shadow-sm dark:bg-gray-800 dark:border-gray-700">
           <div class="p-4 sm:p-7">
             <div class="text-center">
-              <h1 class="block text-xl font-bold text-gray-800 dark:text-white">Confirmation de compte</h1>
+              <h1 class="block text-xl font-bold text-gray-800 dark:text-white">
+                Confirmation de compte
+              </h1>
               <hr class="text-gray-600 bg-gray-600 my-2">
             </div>
             <div class="mt-5">
@@ -28,7 +30,7 @@
                   <div>
                     <label for="email" class="block text-sm mb-2 cursor-pointer dark:text-white">Adresse mail</label>
                     <div class="relative">
-                      <input placeholder="Renseignez votre adresse mail" wire:model='email' type="email" id="email" name="email" class="py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600" required aria-describedby="con_email-error">
+                      <input disabled placeholder="Renseignez votre adresse mail" wire:model='email' type="email" id="email" name="email" class="py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-80 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600 disabled:text-yellow-300" required aria-describedby="con_email-error">
                       @error('email')
                       <div class="absolute inset-y-0 end-0 flex items-center pointer-events-none pe-3">
                         <svg class="h-5 w-5 text-red-500" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
@@ -43,7 +45,6 @@
                   </div>
   
 
-                  @if(!$email_verify_key)
                   <div>
                     <label for="email_verify_key" class="block text-sm mb-2 cursor-pointer dark:text-white">La clé</label>
                     <div class="relative">
@@ -60,19 +61,37 @@
                       <p class="text-xs text-red-600 mt-2" id="email_verify_key-error">{{ $message }}</p>
                     @enderror
                   </div>
-                  @endif
 
-                  @if(!$confirmed)
-                  <a wire:loading.class='opacity-50' wire:target='confirmEmail' href="#" wire:click='confirmEmail' class="w-full cursor-pointer py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
-                    <span wire:loading.remove wire:target='confirmEmail'>Confirmez</span>
-                    <span wire:loading wire:target='confirmEmail' class="">
-                      Mise à jour en cours...
+                  @if(!$key_expired)
+                    @if(!$confirmed)
+                    <div class="flex gap-4 text-center">
+                      <a wire:loading.class='opacity-50' wire:target='confirmEmail' href="#" wire:click='confirmEmail' class="w-full cursor-pointer py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+                        <span wire:loading.remove wire:target='confirmEmail'>Confirmez</span>
+                        <span wire:loading wire:target='confirmEmail' class="">
+                          Mise à jour en cours...
+                          <span class="fa fas fa-rotate animate-spin"></span>
+                        </span>
+                      </a>
+                      <a wire:loading.class='opacity-50' wire:target='requestNewConfirmationKey' href="#" wire:click='requestNewConfirmationKey' class="w-full cursor-pointer py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-yellow-600 text-white hover:bg-yellow-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+                        <span wire:loading.remove wire:target='requestNewConfirmationKey'>Demander une nouvelle clé</span>
+                        <span wire:loading wire:target='requestNewConfirmationKey' class="">
+                          Demande en cours...
+                          <span class="fa fas fa-rotate animate-spin"></span>
+                        </span>
+                      </a>
+                    </div>
+                    @else
+                    <a href="{{route('login')}}" class="w-full cursor-pointer py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-orange-600 text-dark hover:bg-orange-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+                      Se Connecter
+                    </a>
+                    @endif
+                  @else
+                  <a wire:loading.class='opacity-50' wire:target='requestNewConfirmationKey' href="#" wire:click='requestNewConfirmationKey' class="w-full cursor-pointer py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-yellow-600 text-white hover:bg-yellow-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+                    <span wire:loading.remove wire:target='requestNewConfirmationKey'>Demander une nouvelle clé</span>
+                    <span wire:loading wire:target='requestNewConfirmationKey' class="">
+                      Demande en cours...
                       <span class="fa fas fa-rotate animate-spin"></span>
                     </span>
-                  </a>
-                  @else
-                  <a href="{{route('login')}}" class="w-full cursor-pointer py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-orange-600 text-dark hover:bg-orange-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
-                    Se Connecter
                   </a>
                   @endif
                 </div>

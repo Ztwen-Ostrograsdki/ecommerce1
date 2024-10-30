@@ -1,12 +1,16 @@
 <?php
+
 namespace App\Helpers;
 
+use App\Events\ProductAdded;
+use App\Events\ProductHasBeenAddedToAUserCartEvent;
 use App\Models\Product;
 use Filament\Widgets\StatsOverviewWidget\Stat;
 use Illuminate\Support\Facades\Cookie;
 use PhpParser\JsonDecoder;
 
-class CartManager{
+class CartManager
+{
 
     /* add item to cart */
 
@@ -16,9 +20,12 @@ class CartManager{
 
         $already_exist_item = null;
 
-        foreach($carts_items as $key => $item){
+        $product = Product::where('id', $product_id)->first(['id', 'name', 'price', 'images', 'slug']);
 
-            if($item['product_id'] == $product_id){
+
+        foreach ($carts_items as $key => $item) {
+
+            if ($item['product_id'] == $product_id) {
 
                 $already_exist_item = $key;
 
@@ -26,18 +33,15 @@ class CartManager{
             }
         }
 
-        if($already_exist_item !== null){
+        if ($already_exist_item !== null) {
 
             $carts_items[$already_exist_item]['quantity'] = $carts_items[$already_exist_item]['quantity'] + $quantity;
 
             $carts_items[$already_exist_item]['total_amount'] = $carts_items[$already_exist_item]['quantity'] * $carts_items[$already_exist_item]['unit_amount'];
+        } else {
 
+            if ($product) {
 
-        }
-        else{
-            $product = Product::where('id', $product_id)->first(['id', 'name', 'price', 'images', 'slug']);
-
-            if($product){
                 $carts_items[$product_id] = [
                     'product_id' => $product_id,
                     'name' => $product->name,
@@ -61,11 +65,11 @@ class CartManager{
     {
         $carts_items = self::getAllCartItemsFromCookies();
 
-        if(count($carts_items)){
+        if (count($carts_items)) {
 
-            foreach($carts_items as $key => $item){
+            foreach ($carts_items as $key => $item) {
 
-                if($item['product_id'] == $product_id){
+                if ($item['product_id'] == $product_id) {
 
                     //unset($carts_items[$product_id]);
 
@@ -77,7 +81,6 @@ class CartManager{
         self::addCartItemsToCookies($carts_items);
 
         return $carts_items;
-
     }
 
     /* add cart items to cookies */
@@ -102,7 +105,7 @@ class CartManager{
     {
         $carts_items = json_decode(Cookie::get('carts_items'), true);
 
-        if(!$carts_items){
+        if (!$carts_items) {
 
             $carts_items = [];
         }
@@ -116,14 +119,13 @@ class CartManager{
     {
         $carts_items = self::getAllCartItemsFromCookies();
 
-        foreach($carts_items as $key => $item){
+        foreach ($carts_items as $key => $item) {
 
-            if($item['product_id'] == $product_id){
+            if ($item['product_id'] == $product_id) {
 
                 $carts_items[$key]['quantity'] = $carts_items[$key]['quantity'] + $quantity;
 
                 $carts_items[$key]['total_amount'] = $carts_items[$key]['quantity'] * $carts_items[$key]['unit_amount'];
-
             }
         }
 
@@ -138,11 +140,11 @@ class CartManager{
     {
         $carts_items = self::getAllCartItemsFromCookies();
 
-        foreach($carts_items as $key => $item){
+        foreach ($carts_items as $key => $item) {
 
-            if($item['product_id'] == $product_id){
+            if ($item['product_id'] == $product_id) {
 
-                if($carts_items[$key]['quantity'] > 1){
+                if ($carts_items[$key]['quantity'] > 1) {
 
                     $carts_items[$key]['quantity']--;
 
@@ -164,7 +166,7 @@ class CartManager{
     {
         return array_sum(array_column($items, 'total_amount'));
     }
-    
+
     /* computed grand total
         @return int 
     */
@@ -173,11 +175,4 @@ class CartManager{
     {
         return array_sum(array_column($items, 'total_amount'));
     }
-
-    
-
-    
-
-
-
 }

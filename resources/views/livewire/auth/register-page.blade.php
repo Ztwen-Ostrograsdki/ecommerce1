@@ -73,7 +73,7 @@
                     <label for="password" class="block text-sm mb-2 cursor-pointer dark:text-white">Mot de passe</label>
                   </div>
                   <div class="relative">
-                    <input placeholder="Choisissez un mot de passe" wire:model.live='password' type="password" id="password" name="password" class="py-3 border px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600" required aria-describedby="password-error">
+                    <input placeholder="Choisissez un mot de passe" wire:model.live='password' type="password" id="password" name="password" class="@error('password') border-red-700 @else @if($password && $password_confirmation) border-green-700  @endif @enderror  py-3 border px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:text-gray-400 dark:focus:ring-gray-600" required aria-describedby="password-error">
                     @error('password')
                     <div class="absolute inset-y-0 end-0 flex items-center pointer-events-none pe-3">
                       <svg class="h-5 w-5 text-red-500" width="16" height="16" fill="currentColor" viewBox="0 0 16 16" aria-hidden="true">
@@ -83,7 +83,11 @@
                     @enderror
                   </div>
                   @error('password')
-                    <p class="text-xs text-red-600 mt-2" id="email-error">{{ $message }}</p>
+                    <p class="text-xs text-red-600 mt-2" id="password-error">{{ $message }}</p>
+                  @else
+                  @if ($password && $password_confirmation &&  $password == $password_confirmation)
+                    <p class="text-xs text-green-700 mt-2" id="password-error">Confirmé!</p>
+                  @endif
                   @enderror
                 </div>
 
@@ -102,7 +106,7 @@
                     @enderror
                   </div>
                   @error('password_confirmation')
-                    <p class="text-xs text-red-600 mt-2" id="email-error">{{ $message }}</p>
+                    <p class="text-xs text-red-600 mt-2" id="password_confirmation-error">{{ $message }}</p>
                   @enderror
                 </div>
 

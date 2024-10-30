@@ -6,12 +6,14 @@ namespace App\Models;
 
 use App\Helpers\Dater\TraitsManagers\Users\UserTrait;
 use App\Models\Order;
-use Laravel\Sanctum\HasApiTokens;
-use Illuminate\Notifications\Notifiable;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+class User extends Authenticatable implements FilamentUser
 {
     use HasApiTokens, HasFactory, Notifiable, UserTrait;
 
@@ -53,6 +55,12 @@ class User extends Authenticatable
     public function orders()
     {
         return $this->hasMany(Order::class);
+    }
+
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return $this->id === 1 && $this->hasVerifiedEmail();
     }
 
 }
