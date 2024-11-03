@@ -2,9 +2,11 @@
 
 namespace App\Filament\Resources\UserResource\Pages;
 
+use App\Events\EventUserCreated;
 use App\Filament\Resources\UserResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
+use Livewire\Attributes\On;
 
 class ListUsers extends ListRecords
 {
@@ -16,4 +18,13 @@ class ListUsers extends ListRecords
             Actions\CreateAction::make(),
         ];
     }
+
+
+    public function newData($data)
+    {
+        dd($data);
+    }
+
+
+    
 }

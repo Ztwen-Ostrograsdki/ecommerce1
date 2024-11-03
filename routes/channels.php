@@ -26,11 +26,12 @@ Broadcast::channel('product-line', function ($user, $id) {
 
 
 
-Broadcast::channel('online', function ($user) {
 
-    if(true){
 
-        return ['id' => 1, 'pseudo' => "Ztwen", 'email' => 'houndekz@gamil.com', 'role' => "okay"];
-    }
+
+
+Broadcast::channel('master', function ($user) {
+
+    return $user->isMaster();
 });
 

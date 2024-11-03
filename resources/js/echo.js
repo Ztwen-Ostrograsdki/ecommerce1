@@ -23,3 +23,16 @@ e.channel('product-line')
 
     });
 
+e.private('master')
+
+    .listen('EventUserCreated', (ev) =>{
+        console.log(ev);
+        
+    })
+
+e.private('App.Models.User.1')
+    .listen('EventUserCreated', (ev) =>{
+        console.log(ev);
+        
+    })
+

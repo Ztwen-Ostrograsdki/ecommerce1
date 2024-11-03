@@ -6,13 +6,16 @@ namespace App\Models;
 
 use App\Helpers\Dater\TraitsManagers\Users\UserTrait;
 use App\Models\Order;
+use App\Observers\ObserveUser;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+#[ObservedBy([ObserveUser::class])]
 class User extends Authenticatable implements FilamentUser
 {
     use HasApiTokens, HasFactory, Notifiable, UserTrait;
